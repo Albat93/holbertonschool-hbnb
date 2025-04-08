@@ -1,15 +1,13 @@
-// Fonction pour vérifier si l'utilisateur est authentifié en vérifiant le cookie
+// Fonction pour vérifier si l'utilisateur est authentifié en lisant le cookie "token"
 function checkAuth() {
   const cookies = document.cookie.split(';');
   let token = null;
-
   cookies.forEach(cookie => {
     const [key, value] = cookie.trim().split('=');
     if (key === 'token') {
       token = value;
     }
   });
-
   if (!token) {
     // Si aucun token n'est trouvé, rediriger vers la page de login
     window.location.href = 'login.html';
@@ -24,29 +22,68 @@ async function loginUser(email, password) {
       headers: {
         'Content-Type': 'application/json',
       },
+      // IMPORTANT : On inclut les credentials pour que les cookies soient traités correctement
+      credentials: 'include',
       body: JSON.stringify({ email, password })
     });
 
+    console.log("Statut HTTP :", response.status);
+
     if (response.ok) {
       const data = await response.json();
-      // Stocker le JWT dans un cookie
-			document.cookie = `token=${data.access_token}; path=/; Secure`;
-			// Afficher un message de succès
-			alert("Connexion réussie !");
-			// Vérifier si l'utilisateur est authentifié
-			checkAuth();
-      // Rediriger vers la page d'accueil après la connexion
-      window.location.href = 'index.html';
+      console.log("Réponse du serveur :", data);
+
+      // Vérifie que la réponse contient une propriété de token (adaptable selon ce que renvoie ton API)
+      const token = data.access_token || data.token;
+      if (!token) {
+        const errorDiv = document.getElementById("error-message");
+        if (errorDiv) {
+          errorDiv.textContent = "Erreur : La réponse ne contient pas de token.";
+          errorDiv.style.display = "block";
+        } else {
+          alert("Erreur : La réponse ne contient pas de token.");
+        }
+        return;
+      }
+
+      // Stocker le token dans un cookie (sans le flag Secure pour le développement, car le front est en HTTP)
+      document.cookie = `token=${token}; path=/;`;
+
+      // Afficher un message de succès dans l'élément dédié (si présent)
+      const msgDiv = document.getElementById("login-message");
+      if (msgDiv) {
+        msgDiv.textContent = "Connexion réussie ! Redirection en cours...";
+      } else {
+        alert("Connexion réussie !");
+      }
+
+      // Rediriger vers index.html après un léger délai pour laisser le temps de lire le message
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
     } else {
-      document.getElementById("error-message").style.display = "block";
+      console.error("Erreur lors du login :", response.statusText);
+      const errorDiv = document.getElementById("error-message");
+      if (errorDiv) {
+        errorDiv.textContent = "Login failed: " + response.statusText;
+        errorDiv.style.display = "block";
+      } else {
+        alert("Login failed: " + response.statusText);
+      }
     }
   } catch (error) {
     console.error('Login failed', error);
-    document.getElementById("error-message").style.display = "block";
+    const errorDiv = document.getElementById("error-message");
+    if (errorDiv) {
+      errorDiv.textContent = "Une erreur est survenue lors du login.";
+      errorDiv.style.display = "block";
+    } else {
+      alert("Une erreur est survenue lors du login.");
+    }
   }
 }
 
-// Ajouter l'événement au formulaire de login
+// Ajout de l'événement sur le formulaire de login
 document.addEventListener('DOMContentLoaded', () => {
   const loginForm = document.getElementById('login-form');
 
@@ -55,54 +92,51 @@ document.addEventListener('DOMContentLoaded', () => {
       event.preventDefault();
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
+      console.log("Tentative de connexion avec l'email :", email);
       await loginUser(email, password);
     });
   }
 
-  // Vérifier si l'utilisateur est authentifié sur des pages protégées comme place.html
-  if (window.location.pathname === '/place.html') {
+  // Pour les pages protégées (ex. place.html), vérifie l'authentification
+  if (window.location.pathname.endsWith('place.html')) {
     checkAuth();
   }
 
-  // Affichage des détails de la place
+  // Affichage des détails d'une place (exemple) – adapte selon tes besoins
   if (document.getElementById("place-name")) {
-    document.getElementById("place-name").textContent = localStorage.getItem("placeName");
-    document.getElementById("place-description").textContent = localStorage.getItem("placeDescription");
-    document.getElementById("place-image").src = localStorage.getItem("placeImage");
+    document.getElementById("place-name").textContent = localStorage.getItem("placeName") || "";
+    document.getElementById("place-description").textContent = localStorage.getItem("placeDescription") || "";
+    document.getElementById("place-image").src = localStorage.getItem("placeImage") || "";
   }
 });
 
 // Fonction pour afficher les détails d'un lieu
 function viewDetails(placeId) {
-  // Vérifier si l'utilisateur est authentifié avant de continuer
+  // Vérifie que l'utilisateur est authentifié
   const cookies = document.cookie.split(';');
   let token = null;
-
   cookies.forEach(cookie => {
     const [key, value] = cookie.trim().split('=');
     if (key === 'token') {
       token = value;
     }
   });
-
   if (!token) {
-    // Si aucun token n'est trouvé, rediriger vers la page de login
     window.location.href = 'login.html';
     return;
   }
 
+  // Dictionnaires d'exemple pour les détails du lieu
   const placeNames = {
     "1": "Beach House",
     "2": "Cozy Cabin",
     "3": "City Apartment"
   };
-
   const descriptions = {
     "1": "Beautiful house by the sea, perfect for a summer getaway.",
     "2": "Escape to the woods in this cozy and peaceful cabin.",
     "3": "Modern apartment in the heart of the city, close to everything."
   };
-
   const images = {
     "1": "https://source.unsplash.com/800x500/?house,beach",
     "2": "https://source.unsplash.com/800x500/?cabin,forest",

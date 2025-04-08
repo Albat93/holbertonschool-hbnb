@@ -1,50 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add a Review</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Review</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="index.html" class="logo-link">
-        <img src="./images/logo.png" alt="HBnB Logo" class="logo"/>
-      </a>
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-      </nav>
-    </div>
+<body id="add-review-page">
+  <header>
+    <img src="./images/logo.png" alt="Logo" class="logo">
+    <nav>
+      <a href="index.html" class="login-button">Home</a>
+    </nav>
   </header>
 
-  <main class="main-content">
-    <section class="review-section container">
-      <h2>Add a Review for <span class="highlighted-place">[Place Name]</span></h2>
-      <form id="review-form" class="review-form">
-        <label for="review">Your Review</label>
-        <textarea id="review" name="review" placeholder="Write your review here..." required></textarea>
+  <main>
+    <section class="add-review">
+      <h2>Add a Review for: Cozy Cottage</h2>
+      <form id="review-form">
+        <label for="review">Your Review:</label>
+        <textarea id="review" name="review" required></textarea>
 
-        <label for="rating">Rating</label>
+        <label for="rating">Rating:</label>
         <select id="rating" name="rating" required>
-          <option value="">Select a rating</option>
-          <option value="1">1 - ★☆☆☆☆</option>
-          <option value="2">2 - ★★☆☆☆</option>
-          <option value="3">3 - ★★★☆☆</option>
-          <option value="4">4 - ★★★★☆</option>
-          <option value="5">5 - ★★★★★</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
         </select>
 
-        <button type="submit" class="btn-primary">Submit Review</button>
+        <button type="submit" class="btn">Submit Review</button>
       </form>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>&copy; 2025 HBnB. All rights reserved</p>
-    </div>
+  <footer>
+    <p>All rights reserved</p>
   </footer>
 
   <script src="scripts.js"></script>

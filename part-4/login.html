@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HBnB - Login</title>
-  <link rel="stylesheet" href="styles.css"/>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <header>
-    <img src="./images/logo.png" alt="HBnB Logo" class="logo"/>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
 
-  <main class="container">
-    <h1>Login</h1>
-    <form class="login-form" id="login-form">
-      <label for="email">Email</label>
-      <input type="email" id="email" placeholder="example@mail.com" required/>
+<body id="login-page">
+	<header>
+		<img src="./images/logo.png" alt="Logo" class="logo">
+		<nav>
+			<a href="index.html" class="login-button">Home</a>
+		</nav>
+	</header>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" placeholder="Your password" required/>
+	<main>
+		<form id="login-form">
+			<h2>Login</h2>
+			<label for="email">Email:</label>
+			<input type="email" id="email" name="email" required>
 
-      <button type="submit">Login</button>
-    </form>
-    <!-- Message d'erreur qui s'affiche si l'authentification échoue -->
-    <div id="error-message" style="color: red; display: none;">Invalid credentials, please try again.</div>
-  </main>
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" required>
 
-  <footer>
-    <p>&copy; 2025 HBnB. All rights reserved</p>
-  </footer>
+			<!-- Zone pour afficher le message de succès -->
+			<div id="login-message" style="color: green; margin-bottom: 1rem;"></div>
+			<!-- Zone pour afficher un message d'erreur -->
+			<div id="error-message" style="color: red; margin-bottom: 1rem; display: none;"></div>
 
-  <script src="scripts.js"></script>
+			<button type="submit" class="btn">Login</button>
+		</form>
+	</main>
+
+	<footer>
+		<p>All rights reserved</p>
+	</footer>
+
+	<script src="scripts.js"></script>
 </body>
+
 </html>

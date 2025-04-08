@@ -1,48 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HBnB - Home</title>
-  <link rel="stylesheet" href="styles.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List of Places</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body id="index-page">
   <header>
-      <img src="./images/logo.png" alt="HBnB Logo" class="logo"/>
+    <img src="./images/logo.png" alt="Logo" class="logo">
     <nav>
-      <a href="index.html">Home</a>
-      <a href="login.html">Login</a>
+      <a href="login.html" class="login-button">Login</a>
     </nav>
   </header>
 
-  <main class="container">
-    <h1>Available Places</h1>
-    <div class="places-grid">
+  <main>
+    <section id="filter">
+      <h2>Filter places by price</h2>
+      <div class="filter-controls">
+        <label for="price-filter">Max Price:</label>
+        <select id="price-filter">
+          <option value="50">50</option>
+          <option value="100">100</option>
+          <option value="150">150</option>
+          <option value="200">200</option>
+          <option value="250">250</option>
+          <option value="800">All</option>
+        </select>
+      </div>
+    </section>
+
+    <section id="places-list">
       <div class="place-card">
-        <img src="https://source.unsplash.com/400x250/?house,beach" alt="Place image"/>
-        <h2>Beach House</h2>
-        <p>Beautiful house by the sea, perfect for a summer getaway.</p>
-        <button onclick="viewDetails('1')">View Details</button>
+        <h3>Cozy Cottage</h3>
+        <p>$120 per night</p>
+        <button class="btn" onclick="location.href='place.html'">View Details</button>
       </div>
 
       <div class="place-card">
-        <img src="https://source.unsplash.com/400x250/?cabin,forest" alt="Place image"/>
-        <h2>Cozy Cabin</h2>
-        <p>Escape to the woods in this cozy and peaceful cabin.</p>
-        <button onclick="viewDetails('2')">View Details</button>
+        <h3>Urban Loft</h3>
+        <p>$200 per night</p>
+        <a href="place.html" class="btn">View Details</a>
       </div>
 
       <div class="place-card">
-        <img src="https://source.unsplash.com/400x250/?apartment,city" alt="Place image"/>
-        <h2>City Apartment</h2>
-        <p>Modern apartment in the heart of the city, close to everything.</p>
-        <button onclick="viewDetails('3')">View Details</button>
+        <h3>Mountain Cabin</h3>
+        <p>$95 per night</p>
+        <a href="place.html" class="btn">View Details</a>
       </div>
-    </div>
+
+      <div class="place-card">
+        <h3>Cheap Tent</h3>
+        <p>$45 per night</p>
+        <a href="place.html" class="btn">View Details</a>
+      </div>
+
+      <div class="place-card">
+        <h3>Luxury Villa</h3>
+        <p>$280 per night</p>
+        <a href="place.html" class="btn">View Details</a>
+      </div>
+    </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 HBnB. All rights reserved</p>
+    <p>All rights reserved</p>
   </footer>
 
   <script src="scripts.js"></script>
