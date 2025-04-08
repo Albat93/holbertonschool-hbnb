@@ -18,22 +18,30 @@ function checkAuth() {
 
 // Fonction pour gérer la connexion de l'utilisateur
 async function loginUser(email, password) {
-  const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password })
-  });
+  try {
+    const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password })
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    // Stocker le JWT dans un cookie
-    document.cookie = `token=${data.access_token}; path=/`;
-
-    // Rediriger vers la page d'accueil après la connexion
-    window.location.href = 'index.html';
-  } else {
+    if (response.ok) {
+      const data = await response.json();
+      // Stocker le JWT dans un cookie
+			document.cookie = `token=${data.access_token}; path=/; Secure`;
+			// Afficher un message de succès
+			alert("Connexion réussie !");
+			// Vérifier si l'utilisateur est authentifié
+			checkAuth();
+      // Rediriger vers la page d'accueil après la connexion
+      window.location.href = 'index.html';
+    } else {
+      document.getElementById("error-message").style.display = "block";
+    }
+  } catch (error) {
+    console.error('Login failed', error);
     document.getElementById("error-message").style.display = "block";
   }
 }
