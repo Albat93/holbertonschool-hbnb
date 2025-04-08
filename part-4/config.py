@@ -11,6 +11,7 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
 
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -18,7 +19,6 @@ class DevelopmentConfig(Config):
     ADMIN_SECRET = os.getenv("ADMIN_SECRET", "default-admin-secret")
 
     SQLALCHEMY_DATABASE_URI = 'sqlite:///development.db'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 class TestConfig:
     TESTING = True
