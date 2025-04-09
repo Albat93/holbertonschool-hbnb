@@ -47,7 +47,7 @@ def create_app(config_class="config.DevelopmentConfig"):
               authorizations=authorizations,
               security='Bearer'
               )
-    CORS(app)
+    CORS(app, supports_credentials=True)
     # Import et enregistrement des namespaces
     from app.api.v1.users import api as users_ns
     from app.api.v1.places import api as places_ns
