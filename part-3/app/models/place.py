@@ -16,30 +16,12 @@ class Place(BaseModel):
     price = db.Column(db.Float, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-<<<<<<< HEAD
     owner_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
 
     owner = db.relationship('User', back_populates='places', lazy=True)
     reviews = db.relationship('Review', back_populates='place', lazy=True)
     amenities = db.relationship('Amenity', secondary=place_amenity, lazy='subquery',
                                 backref=db.backref('places', lazy=True))
-=======
-
-    # Clé étrangère vers la table users
-    owner_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=False)
-
-    # Relation directe : permet de faire place.owner pour accéder à l'objet User
-    owner = db.relationship('User', backref='places', lazy=True)
-
-    # Relation vers Review et Amenity
-    reviews = db.relationship('Review', backref='place', lazy=True)
-    amenities = db.relationship(
-        'Amenity',
-        secondary=place_amenity,
-        lazy='subquery',
-        backref=db.backref('places', lazy=True)
-    )
->>>>>>> e35d0c03a6263cf5b9530db45ede520c656c85c9
 
     """
     Place class.

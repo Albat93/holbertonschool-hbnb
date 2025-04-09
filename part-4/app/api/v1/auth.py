@@ -6,7 +6,7 @@ from flask_jwt_extended import (
 )
 from flask import request
 from app.services import facade
-from app.extensions import jwt_blacklist  # Assure-toi que ce set est bien initialisé quelque part dans extensions.py
+from app.extensions import jwt_blacklist
 
 api = Namespace('auth', description='Authentication operations')
 
