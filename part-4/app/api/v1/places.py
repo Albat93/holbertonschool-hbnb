@@ -55,7 +55,6 @@ class PlaceList(Resource):
                 "longitude": place_obj.longitude,
                 "owner_id": place_obj.owner.id,
                 "owner": {
-                    "id": place_obj.owner.id,
                     "first_name": place_obj.owner.first_name,
                     "last_name": place_obj.owner.last_name,
                     "email": place_obj.owner.email

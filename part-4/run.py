@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 app = create_app()
 
-CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 with app.app_context():
     db.create_all()

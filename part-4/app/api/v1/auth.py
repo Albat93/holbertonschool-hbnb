@@ -28,7 +28,7 @@ register_model = api.model('Register', {
 # --------------------
 # Login
 # --------------------
-@api.route('/login')
+@api.route('/login/')
 class Login(Resource):
     @api.expect(login_model, validate=True)
     def post(self):
