@@ -77,7 +77,7 @@ function displayPlaces(places) {
     }
 
     card.innerHTML = `
-      <h3>${place.name}</h3>
+      <h3>${place.title}</h3>
       <p>Price: $${place.price} per night</p>
       <p>${place.description}</p>
       ${buttonHTML}
