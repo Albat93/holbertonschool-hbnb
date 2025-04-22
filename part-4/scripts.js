@@ -19,13 +19,15 @@ function getCookie(name) {
 function checkAuthentication() {
   const token = getCookie("token");
   const loginLink = document.getElementById("login-link");
+  const logoutLink = document.getElementById("logout-link");
 
   if (!token) {
     if (loginLink) loginLink.style.display = "block";
+    if (logoutLink) logoutLink.style.display = "none";
   } else {
     if (loginLink) loginLink.style.display = "none";
+    if (logoutLink) logoutLink.style.display = "block";
   }
-  // On récupère les lieux que l'utilisateur soit authentifié ou non
   fetchPlaces(token);
 }
 
@@ -47,7 +49,10 @@ async function fetchPlaces(token) {
       const data = await response.json();
       displayPlaces(data);
     } else {
-      console.error("Erreur lors de la récupération des places :", response.statusText);
+      console.error(
+        "Erreur lors de la récupération des places :",
+        response.statusText
+      );
     }
   } catch (error) {
     console.error("Erreur lors de la récupération des places :", error);
@@ -70,11 +75,7 @@ function displayPlaces(places) {
     card.setAttribute("data-price", place.price);
 
     let buttonHTML = "";
-    if (token) {
-      buttonHTML = `<button class="btn" onclick="viewDetails('${place.id}')">View Details</button>`;
-    } else {
-      buttonHTML = `<button class="btn" onclick="redirectToLogin()">View Details</button>`;
-    }
+    buttonHTML = `<button class="btn" onclick="viewDetails('${place.id}')">View Details</button>`;
 
     card.innerHTML = `
       <h3>${place.title}</h3>
@@ -107,6 +108,7 @@ function checkAuthenticationAndLoadDetails() {
 
   if (!placeId) {
     console.error("Aucun ID de lieu dans l'URL.");
+    window.location.href = "index.html";
     return;
   }
 
@@ -131,7 +133,8 @@ async function fetchPlaceDetails(token, placeId) {
       headers,
     });
 
-    if (!res.ok) throw new Error("Erreur API lors de la récupération des détails du lieu");
+    if (!res.ok)
+      throw new Error("Erreur API lors de la récupération des détails du lieu");
 
     const place = await res.json();
     displayPlaceDetails(place);
@@ -141,29 +144,38 @@ async function fetchPlaceDetails(token, placeId) {
   }
 }
 
-
 function displayPlaceDetails(place) {
   document.getElementById("place-name").textContent = place.title;
-  document.getElementById("place-host").textContent = `Host: ${place.owner.first_name} ${place.owner.last_name}`;
+  document.getElementById(
+    "place-host"
+  ).textContent = `Host: ${place.owner.first_name} ${place.owner.last_name}`;
   document.getElementById("place-price").textContent = `Price: $${place.price}`;
-  document.getElementById("place-description").textContent = `Description: ${place.description}`;
+  document.getElementById(
+    "place-description"
+  ).textContent = `Description: ${place.description}`;
 
   const amenitiesIcons = {
-    "Wifi": "<img src='./images/icon_wifi.png' alt='Wifi' style='height:20px; vertical-align:middle;'>",
-    "Bathroom": "<img src='./images/icon_bath.png' alt='Bathroom' style='height:20px; vertical-align:middle;'>",
-    "Bed": "<img src='./images/icon_bed.png' alt='Bed' style='height:20px; vertical-align:middle;'>"
+    Wifi: "<img src='./images/icon_wifi.png' alt='Wifi' style='height:20px; vertical-align:middle;'>",
+    Bathroom:
+      "<img src='./images/icon_bath.png' alt='Bathroom' style='height:20px; vertical-align:middle;'>",
+    Bed: "<img src='./images/icon_bed.png' alt='Bed' style='height:20px; vertical-align:middle;'>",
   };
 
   if (place.amenities.length === 0) {
     document.getElementById("place-amenities").innerHTML = "Amenities: None";
   } else {
-    const amenityList = place.amenities.map(a => {
-      return `${amenitiesIcons[a.name] || ""} ${a.name}`;
-    }).join(" | ");
-    document.getElementById("place-amenities").innerHTML = `Amenities: ${amenityList}`;
+    const amenityList = place.amenities
+      .map((a) => {
+        return `${amenitiesIcons[a.name] || ""} ${a.name}`;
+      })
+      .join(" | ");
+    document.getElementById(
+      "place-amenities"
+    ).innerHTML = `Amenities: ${amenityList}`;
   }
 
-  document.getElementById("place-image").src = place.image || "https://www.costas-casas.fr/db/huizen/1357/123765-2_57.jpg";
+  document.getElementById("place-image").src =
+    place.image || "https://www.costas-casas.fr/db/huizen/1357/123765-2_57.jpg";
 }
 
 async function loadReviews(placeId) {
@@ -172,7 +184,7 @@ async function loadReviews(placeId) {
     if (!res.ok) throw new Error("Erreur chargement reviews");
 
     const allReviews = await res.json();
-    const reviews = allReviews.filter(r => r.place_id === placeId);
+    const reviews = allReviews.filter((r) => r.place_id === placeId);
 
     const reviewsContainer = document.getElementById("reviews");
     reviewsContainer.innerHTML = "<h3>Reviews</h3>";
@@ -180,7 +192,7 @@ async function loadReviews(placeId) {
     if (reviews.length === 0) {
       reviewsContainer.innerHTML += "<p>No reviews yet.</p>";
     } else {
-      reviews.forEach(r => {
+      reviews.forEach((r) => {
         const el = document.createElement("article");
         el.className = "review-card";
         el.innerHTML = `<p>"${r.text}"</p><p>Rating: ${r.rating}/5</p>`;
@@ -214,11 +226,11 @@ function initPriceFilter() {
 
 async function loginUser(email, password) {
   try {
-    const response = await fetch('http://127.0.0.1:5000/api/v1/auth/login/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ email, password })
+    const response = await fetch("http://127.0.0.1:5000/api/v1/auth/login/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ email, password }),
     });
     if (response.ok) {
       const data = await response.json();
@@ -229,7 +241,9 @@ async function loginUser(email, password) {
       }
       document.cookie = `token=${token}; path=/;`;
       displaySuccess("login-message", "Connexion réussie ! Redirection...");
-      setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
     } else {
       displayError("error-message", "Login failed: " + response.statusText);
     }
@@ -259,6 +273,40 @@ function displaySuccess(elementId, message) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  const logoutLink = document.getElementById("logout-link");
+  if (logoutLink) {
+    logoutLink.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      const token = getCookie("token");
+      if (!token) return;
+
+      try {
+        const res = await fetch("http://127.0.0.1:5000/api/v1/auth/logout", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+
+        document.cookie =
+          "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+        if (res.ok) {
+          alert("Déconnexion réussie !");
+          window.location.href = "index.html";
+        } else {
+          alert("Erreur lors de la déconnexion.");
+        }
+      } catch (error) {
+        console.error("Erreur logout :", error);
+        alert("Erreur lors de la déconnexion.");
+      }
+    });
+  }
+
   if (document.body.id === "index-page") {
     checkAuthentication();
     initPriceFilter();
@@ -278,7 +326,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
 
 // Gestion du formulaire d'ajout de review (add_review.html) avec console.log pour debug
 
@@ -306,25 +353,31 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Contenu de l'avis :", reviewText, "Note :", rating);
 
         try {
-          const response = await fetch('http://127.0.0.1:5000/api/v1/reviews/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({
-              text: reviewText,
-              rating: parseInt(rating),
-              place_id: placeId
-            })
-          });
+          const response = await fetch(
+            "http://127.0.0.1:5000/api/v1/reviews/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+              },
+              body: JSON.stringify({
+                text: reviewText,
+                rating: parseInt(rating),
+                place_id: placeId,
+              }),
+            }
+          );
 
           if (response.ok) {
             console.log("Avis ajouté avec succès");
             alert("Review submitted successfully!");
-            reviewForm.reset();
+            window.location.href = `place.html?id=${placeId}`;
           } else {
-            console.error("Erreur lors de la soumission de l'avis - Status :", response.status);
+            console.error(
+              "Erreur lors de la soumission de l'avis - Status :",
+              response.status
+            );
             alert("Failed to submit review.");
           }
         } catch (error) {
