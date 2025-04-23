@@ -1,101 +1,79 @@
-# HBnB - Technical Guide
+# 🧭 Part 4 - Simple Web Client
 
-## Introduction
-Welcome to the **HBnB Technical Guide**. This document provides a comprehensive blueprint for implementing the HBnB platform, a web-based application designed to connect hosts offering accommodations with travelers seeking short-term rentals. Similar to established platforms like Airbnb, HBnB enables hosts to list properties, manage bookings, and communicate with guests, ensuring a seamless and secure booking experience.
+Bienvenue dans la quatrième phase du projet **HBnB** ! Cette partie se concentre sur le **développement frontend** d'une interface utilisateur dynamique en utilisant **HTML5, CSS3 et JavaScript (ES6)**, pour interagir avec les services backend développés précédemment.
 
-This guide is intended for developers, system architects, and project managers. It outlines the core architecture, features, technical requirements, system components, and integration processes necessary for efficient development and deployment of the HBnB platform.
+---
 
-## Table of Contents
-- [System Overview](#system-overview)
-- [Technical Stack](#technical-stack)
-- [System Architecture](#system-architecture)
-- [Core Features](#core-features)
-- [Database Design](#database-design)
-- [API Design](#api-design)
-- [User Authentication](#user-authentication)
-- [Deployment Strategy](#deployment-strategy)
-- [Security Considerations](#security-considerations)
-- [Conclusion](#conclusion)
+## 🎯 Objectifs
 
-## System Overview
-HBnB is designed as a scalable, full-stack web application that facilitates property rentals by connecting hosts and guests. The system consists of:
-- A **frontend** for user interaction
-- A **backend** managing business logic
-- A **database** storing property, user, and booking data
+- Concevoir une interface utilisateur conviviale selon les spécifications données.
+- Implémenter la communication avec l’API backend via JavaScript.
+- Gérer les sessions utilisateur de manière sécurisée avec JWT.
+- Appliquer les bonnes pratiques de développement web moderne.
 
-## Technical Stack
-- **Frontend**: HTML, CSS, JavaScript (React/Vue.js)
-- **Backend**: Python (Flask/Django)
-- **Database**: MySQL/PostgreSQL
-- **Authentication**: OAuth, JWT
-- **Deployment**: Docker, Nginx, AWS/GCP
+---
 
-## System Architecture
-The system follows a **microservices-based** or **monolithic** architecture depending on scaling needs. Key components include:
-- **Frontend UI** - User-friendly web interface
-- **API Layer** - RESTful API for communication
-- **Database** - Persistent data storage
-- **Authentication Service** - Secure user authentication and authorization
-- **Booking Engine** - Manages property reservations
-- **Messaging Service** - Facilitates host-guest communication
+## 📚 Compétences acquises
 
-## Core Features
-- User Registration & Authentication
-- Property Listing & Management
-- Search & Filtering
-- Booking & Payment Integration
-- Review & Rating System
-- Messaging System
-- Admin Dashboard
+- Utilisation de HTML5 sémantique et de CSS3 responsive.
+- Interrogation de l'API via Fetch API (AJAX).
+- Authentification avec stockage de tokens JWT dans les cookies.
+- Manipulation du DOM pour un rendu dynamique sans rechargement de page.
 
-## Database Design
-The HBnB database follows a **relational model** with the following key tables:
-- `users` (id, name, email, password, role)
-- `properties` (id, owner_id, title, description, location, price)
-- `bookings` (id, user_id, property_id, check-in, check-out, status)
-- `reviews` (id, user_id, property_id, rating, comment)
-- `messages` (id, sender_id, receiver_id, content, timestamp)
+---
 
-## API Design
-HBnB exposes a RESTful API with endpoints for managing the platform:
-```plaintext
-GET /properties - Fetch available properties
-POST /properties - Add a new property
-GET /bookings - Retrieve user bookings
-POST /bookings - Create a new booking
-POST /auth/login - User authentication
-```
+## 🧩 Structure du projet
 
-## User Authentication
-Authentication follows a **token-based** system using:
-- **JWT (JSON Web Token)** for session management
-- **OAuth 2.0** for third-party login (Google, Facebook)
-- **Role-based Access Control (RBAC)** for admin, host, and guest privileges
+### Pages implémentées :
 
-## Deployment Strategy
-HBnB is deployed using:
-- **Docker & Docker Compose** for containerization
-- **Nginx** for load balancing
-- **AWS/GCP** for cloud hosting
-- **CI/CD Pipelines** using GitHub Actions or Jenkins
+- `login.html` – Page de connexion.
+- `index.html` – Liste des lieux disponibles.
+- `place.html` – Détails d’un lieu spécifique.
+- `add_review.html` – Formulaire d’ajout d’un avis.
 
-## Security Considerations
-To ensure a secure platform, HBnB implements:
-- **Data encryption** (HTTPS/TLS)
-- **Input validation & sanitization**
-- **Secure password hashing** (bcrypt)
-- **API rate limiting**
+---
 
-## Conclusion
-By following this guide, developers can efficiently build and scale the HBnB platform, ensuring a robust, secure, and user-friendly experience. For additional documentation or questions, please refer to the project's GitHub repository or contact the development team.
+## ✅ Tâches réalisées
 
-## Authors:
+### 1. 🎨 Design
 
-**Alexis Battistoni** https://github.com/Albat93
+- 📂 Utilisation des fichiers `HTML` et `CSS` fournis (`styles.css`).
+- 📄 Chaque page respecte les spécifications visuelles :
+  - **Cartes de lieux** (`.place-card`)
+  - **Détails** (`.place-details`)
+  - **Avis** (`.review-card`)
+  - **Formulaires** (`form` avec `.btn`)
 
-**Killian Ripoche** https://github.com/KillianRipoche
+### 2. 🔐 Login
 
-**Jean-Alain Renié** https://github.com/JaRenie-spec
+- 📌 Connexion via `/api/v1/auth/login/`.
+- ✅ Enregistrement du token JWT dans un cookie.
+- ↪️ Redirection vers `index.html` si succès.
+- ⚠️ Affichage d’un message d’erreur si échec.
 
-**Happy Coding! 🚀**
+### 3. 📍 Liste des lieux (Index)
 
+- 📥 Récupération des lieux via `/api/v1/places/`.
+- 🔍 Filtrage dynamique des lieux par prix.
+- 👁️ Affichage conditionnel du bouton Login selon l’authentification.
+
+### 4. 🧾 Détails d’un lieu
+
+- 📄 Récupération d’un lieu via son ID depuis l’URL.
+- 💬 Affichage de ses détails + ses équipements + ses avis.
+- ✍️ Affichage du bouton "Add Review" si authentifié.
+
+### 5. 📝 Ajout d’un avis
+
+- ✅ Accès uniquement pour les utilisateurs connectés.
+- 📨 Envoi des données via POST à `/api/v1/reviews/`.
+- ✅ Affichage d’un message de succès ou d’échec.
+- 🚫 Redirection vers `index.html` si non connecté.
+
+---
+
+## 🛡️ Sécurité & CORS
+
+- CORS activé dans `run.py` via :
+  ```python
+  CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
