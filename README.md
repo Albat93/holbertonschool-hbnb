@@ -1,73 +1,75 @@
 
-# 🏠 HBnB - Clone simplifié d’Airbnb
+# 🏠 HBnB - Simplified Airbnb Clone
 
-HBnB est une application web complète inspirée d’Airbnb permettant aux utilisateurs de publier, consulter et gérer des lieux, des avis et des commodités. Elle repose sur une architecture RESTful développée avec Flask, accompagnée d'une interface utilisateur responsive.
-
----
-
-## 🧩 Fonctionnalités
-
-### 🔐 Authentification & Sécurité
-- Connexion avec génération de tokens JWT (access + refresh)
-- Blacklist des tokens pour le logout sécurisé
-- Rôles utilisateur / admin
-- Propriétaire ou admin requis pour certaines actions (delete, update)
-
-### 👥 Utilisateurs
-- Inscription avec option de promotion à admin via un `admin_secret`
-- Lecture, modification et suppression de compte
-- Listing admin-only des utilisateurs
-
-### 🏡 Lieux (Places)
-- Création de lieux avec titre, description, prix, coordonnées
-- Association possible de commodités à un lieu
-- Validation des données serveur-side
-- Listing filtré côté client par prix
-
-### 🧰 Commodités (Amenities)
-- CRUD disponible
-- Ajout libre, suppression restreinte (admin ou propriétaire)
-
-### 🌟 Avis (Reviews)
-- Ajout de notes et commentaires sur un lieu
-- Visibles publiquement, authentification requise pour poster
+HBnB is a full-featured web application inspired by Airbnb. It allows users to publish, browse, and manage places, reviews, and amenities. The system is built on a RESTful architecture using Flask and includes a responsive front-end interface.
 
 ---
 
-## 🗂️ Architecture du projet
+## 🧩 Features
+
+### 🔐 Authentication & Security
+- JWT-based login system (access + refresh tokens)
+- Token blacklist for secure logout
+- User and admin roles
+- Admin or ownership required for certain actions (delete, update)
+
+### 👥 Users
+- Signup with optional admin promotion via `admin_secret`
+- View, update, and delete your account
+- Admin-only user listing
+
+### 🏡 Places
+- Create places with title, description, price, and coordinates
+- Optional amenity linking
+- Server-side validation for data consistency
+- Price filtering handled on client side
+
+### 🧰 Amenities
+- Full CRUD for amenities
+- Public read access
+- Delete/update restricted to owner or admin
+
+### 🌟 Reviews
+- Submit ratings and text reviews for places
+- Publicly readable
+- Authenticated users can post
+
+---
+
+## 🗂️ Project Structure
 
 ```
 .
-├── run.py                      # Point d'entrée Flask
-├── config.py                   # Configuration Flask/JWT
-├── requirements.txt            # Dépendances Python
+├── run.py                      # Flask entry point
+├── config.py                   # Flask and JWT configuration
+├── requirements.txt            # Python dependencies
 ├── app/
-│   ├── __init__.py             # Création de l'app + registration API
+│   ├── __init__.py             # App factory + API namespace registration
 │   ├── services/
-│   │   └── facade.py           # Façade unifiée pour toutes les opérations métier
+│   │   └── facade.py           # Unified service layer
 │   ├── api/v1/
-│       ├── users.py            # Routes utilisateurs
-│       ├── auth.py             # Authentification JWT
-│       ├── admin.py            # Fonctions d'administration
-│       ├── amenities.py        # Gestion des commodités
-│       ├── places.py           # (non fourni, mais attendu)
-│       ├── reviews.py          # (non fourni, mais attendu)
+│       ├── users.py            # User routes
+│       ├── auth.py             # Authentication routes
+│       ├── admin.py            # Admin operations
+│       ├── amenities.py        # Amenity routes
+│       ├── places.py           # (expected, not provided)
+│       ├── reviews.py          # (expected, not provided)
 ├── templates/
-│   ├── index.html              # Liste des lieux
-│   ├── login.html              # Connexion
-│   ├── place.html              # Détails d’un lieu
-│   ├── add_review.html         # Formulaire d’ajout d’avis
+│   ├── index.html              # Places list page
+│   ├── login.html              # Login form
+│   ├── place.html              # Place detail + reviews
+│   ├── add_review.html         # Submit a new review
 ├── static/
-│   ├── styles.css              # Design responsive
-│   ├── scripts.js              # Comportement dynamique JS
-│   └── images/                 # Icônes et logo
+│   ├── styles.css              # Responsive styles
+│   ├── scripts.js              # Front-end logic
+│   └── images/                 # Icons and logo
 ```
 
 ---
 
-## 🧪 Installation et lancement
+## 🧪 Installation & Launch
 
-### 📦 Prérequis
+### 📦 Prerequisites
 - Python 3.8+
 - pip
 
@@ -76,60 +78,64 @@ HBnB est une application web complète inspirée d’Airbnb permettant aux utili
 pip install -r requirements.txt
 ```
 
-### ▶️ Lancement
+### ▶️ Run
 ```bash
 python run.py
 ```
 
-Accessible ensuite via `http://127.0.0.1:5000`.
+The app will be available at `http://127.0.0.1:5000`.
 
 ---
 
-## 🌐 Interface utilisateur
+## 🌐 User Interface
 
-### 🖼 Pages fournies
-| Page               | Description                            |
-|--------------------|----------------------------------------|
-| `index.html`       | Liste de lieux avec filtre de prix     |
-| `login.html`       | Formulaire de connexion                |
-| `place.html`       | Détail d’un lieu + avis + lien review  |
-| `add_review.html`  | Ajout d’un avis                        |
+### 🖼 Provided Pages
+| Page               | Description                                |
+|--------------------|--------------------------------------------|
+| `index.html`       | Lists all places with price filter         |
+| `login.html`       | User login form                            |
+| `place.html`       | Details of a place + reviews + add review  |
+| `add_review.html`  | Submit a new review                        |
 
 ### 📱 Responsive Design
-Le site est responsive mobile/tablette grâce à `styles.css` et utilise une grille dynamique pour afficher les lieux.
+The UI is fully responsive (desktop/tablet/mobile) and styled with `styles.css`, using a dynamic grid for place display.
 
 ---
 
-## 🔑 Endpoints API (sélection)
+## 🔑 API Endpoints (Sample)
 
-| Verbe | URL                         | Description                    | Auth |
-|-------|-----------------------------|--------------------------------|------|
-| POST  | `/api/v1/auth/login`        | Connexion utilisateur          | ✅   |
-| GET   | `/api/v1/users/`            | Liste des utilisateurs (admin) | ✅   |
-| POST  | `/api/v1/users/`            | Création d’un utilisateur      | ❌   |
-| GET   | `/api/v1/places/`           | Lister tous les lieux          | ✅   |
-| POST  | `/api/v1/reviews/`          | Ajouter un avis                | ✅   |
-| GET   | `/api/v1/amenities/`        | Lister les commodités          | ✅   |
-
----
-
-## 🔒 Sécurité
-
-- **JWT** pour sécuriser toutes les opérations sensibles
-- **Blacklist** des tokens pour gérer les logouts
-- **Contrôle d’accès** dans chaque route (admin / owner check)
-- **Validation côté serveur** pour les données critiques
+| Method | URL                         | Description                    | Auth |
+|--------|-----------------------------|--------------------------------|------|
+| POST   | `/api/v1/auth/login`        | User login                     | ✅   |
+| GET    | `/api/v1/users/`            | List users (admin only)        | ✅   |
+| POST   | `/api/v1/users/`            | Create a new user              | ❌   |
+| GET    | `/api/v1/places/`           | List all places                | ✅   |
+| POST   | `/api/v1/reviews/`          | Submit a new review            | ✅   |
+| GET    | `/api/v1/amenities/`        | List all amenities             | ✅   |
 
 ---
 
-## 🛠️ Développement futur
+## 🔒 Security
 
-- Système de réservation
-- Uploads d’images réels pour les lieux
-- Dashboard admin plus avancé
+- **JWT** ensures all sensitive endpoints are protected
+- **Token blacklist** guarantees secure logout
+- **Access control** enforced at route level (admin/owner)
+- **Server-side validation** for all important data
 
 ---
 
-## 👨‍💻 Auteurs
+## 🛠️ Future Development
 
- **Alexis Battistoni** → https://github.com/Albat93
+- Booking system
+- Real image upload support for places
+- Advanced admin dashboard
+
+---
+
+## 👨‍💻 Contributors
+---
+
+- **Jean-Alain Renié** → https://github.com/JaRenie-spec
+- **Killian Ripoche** → https://github.com/KillianRipoche
+- **Alexis Battistoni** → https://github.com/Albat93
+
