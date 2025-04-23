@@ -1,146 +1,133 @@
-# HBnB Project: Part 3 - Persistence Layer and Authentication
----
 
-## 📌 Overview
----
+# 🧭 Part 4 - Simple Web Client
 
-In Part 3 of the **HBnB Project**, we enhance the application by introducing a **database-backed Persistence Layer** and implementing **Authentication & Authorization** mechanisms.
-
-- ✅ Reliable data storage with **SQLAlchemy**
-- ✅ Secure access with **JWT authentication**
-- ✅ Role-based access control for sensitive actions
-
-This makes the application more robust, secure, and production-ready.
+Bienvenue dans la quatrième phase du projet **HBnB** ! Cette partie se concentre sur le **développement frontend** d'une interface utilisateur dynamique en utilisant **HTML5, CSS3 et JavaScript (ES6)**, pour interagir avec les services backend développés précédemment.
 
 ---
 
-## 🏗️ Project Structure
----
+## 🎯 Objectifs
 
-The application now consists of the following layers:
-
-- **Presentation Layer** → Flask + flask-restx API endpoints
-- **Business Logic Layer** → Validation, relationships, access control
-- **Persistence Layer** → SQLAlchemy ORM for database interactions
-- **Authentication Layer** → JWT-based login and access restrictions
+- Concevoir une interface utilisateur conviviale selon les spécifications données.
+- Implémenter la communication avec l’API backend via JavaScript.
+- Gérer les sessions utilisateur de manière sécurisée avec JWT.
+- Appliquer les bonnes pratiques de développement web moderne.
 
 ---
 
-## 🎯 Objectives
----
+## 📚 Compétences acquises
 
-### 1️⃣ Database Integration
-- Migrate from in-memory repository to **SQLAlchemy ORM**
-- Define entities: `User`, `Place`, `Review`, `Amenity`
-- Create database schema and ensure **referential integrity**
-
-### 2️⃣ Authentication & Authorization
-- Implement **JWT login & token generation**
-- Add **role-based access control** (admin / user)
-- Secure routes using custom decorators
-
-### 3️⃣ Enhanced API Functionality
-- Add login/registration endpoints
-- Protect all API routes with authentication
-- Extend admin capabilities (user management)
-
-### 4️⃣ Error Handling & Validation
-- Handle unauthorized/forbidden access gracefully
-- Validate inputs on both API and business levels
-- Return clear, user-friendly error messages
+- Utilisation de HTML5 sémantique et de CSS3 responsive.
+- Interrogation de l'API via Fetch API (AJAX).
+- Authentification avec stockage de tokens JWT dans les cookies.
+- Manipulation du DOM pour un rendu dynamique sans rechargement de page.
 
 ---
 
-## 📡 API Endpoints
----
+## 🧩 Structure du projet
 
-### 🔐 Authentication Endpoints
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/v1/auth/register` | Register a new user |
-| POST | `/api/v1/auth/login` | Authenticate and get JWT token |
+### Pages implémentées :
 
-### 🔒 Protected Routes (JWT Required)
-> All previous CRUD endpoints (Users, Places, Reviews, Amenities) are now protected.
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/v1/users/` | Retrieve all users (authenticated) |
-| POST | `/api/v1/places/` | Create a new place (authenticated) |
-| PUT | `/api/v1/reviews/<review_id>` | Update a review (authenticated) |
+- `login.html` – Page de connexion.
+- `index.html` – Liste des lieux disponibles.
+- `place.html` – Détails d’un lieu spécifique.
+- `add_review.html` – Formulaire d’ajout d’un avis.
 
 ---
 
-## 💡 Example Usage
----
+## ✅ Tâches réalisées
 
-### ✅ User Login
-```
-POST /api/v1/auth/login
-{
-  "email": "admin@example.com",
-  "password": "yourpassword"
-}
-```
+### 1. 🎨 Design
 
-**Response:**
-```
-{
-  "access_token": "eyJ0eXAiOiJKV1QiLCJh..."
-}
-```
+- 📂 Utilisation des fichiers `HTML` et `CSS` fournis (`styles.css`).
+- 📄 Chaque page respecte les spécifications visuelles :
+  - **Cartes de lieux** (`.place-card`)
+  - **Détails** (`.place-details`)
+  - **Avis** (`.review-card`)
+  - **Formulaires** (`form` avec `.btn`)
 
-### 🔐 Accessing a Protected Route
-```
-GET /api/v1/places/
-Authorization: Bearer <access_token>
-```
+### 2. 🔐 Login
 
----
+- 📌 Connexion via `/api/v1/auth/login/`.
+- ✅ Enregistrement du token JWT dans un cookie.
+- ↪️ Redirection vers `index.html` si succès.
+- ⚠️ Affichage d’un message d’erreur si échec.
 
-## 🧪 Testing
----
+### 3. 📍 Liste des lieux (Index)
 
-- 🔍 Unit tests with **pytest** (models, logic, API routes)
-- 🧪 API testing with **Postman/cURL**
-- 🔐 JWT token validation & role-based tests
+- 📥 Récupération des lieux via `/api/v1/places/`.
+- 🔍 Filtrage dynamique des lieux par prix.
+- 👁️ Affichage conditionnel du bouton Login selon l’authentification.
 
----
+### 4. 🧾 Détails d’un lieu
 
-## ⚙️ Technologies Used
----
+- 📄 Récupération d’un lieu via son ID depuis l’URL.
+- 💬 Affichage de ses détails + ses équipements + ses avis.
+- ✍️ Affichage du bouton "Add Review" si authentifié.
 
-- **Python** - Flask, flask-restx
-- **SQLAlchemy** - ORM
-- **Flask-JWT-Extended** - Authentication
-- **SQLite/PostgreSQL** - Database
-- **pytest** - Unit testing
+### 5. 📝 Ajout d’un avis
+
+- ✅ Accès uniquement pour les utilisateurs connectés.
+- 📨 Envoi des données via POST à `/api/v1/reviews/`.
+- ✅ Affichage d’un message de succès ou d’échec.
+- 🚫 Redirection vers `index.html` si non connecté.
 
 ---
 
-## 🚀 Future Enhancements
----
+## 🛡️ Sécurité & CORS
 
-- Refresh tokens
-- Password reset functionality
-- dynamic database update
-- enhance security
-
----
-
-## 📚 Resources
----
-
-- [Flask Documentation](https://flask.palletsprojects.com/en/stable/)
-- [SQLAlchemy Docs](https://docs.sqlalchemy.org/en/latest/)
-- [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/en/stable/)
-- [RESTful API Best Practices](https://restfulapi.net/)
+- CORS activé dans `run.py` via :
+  ```python
+  CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
+  ```
+- ✅ Les appels `Fetch` incluent le token dans l’en-tête `Authorization` :
+  ```js
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token
+  }
+  ```
 
 ---
 
-## 👨‍💻 Contributors
+## 🧪 Tests réalisés
+
+- ✔ Connexion avec des identifiants valides/invalides.
+- ✔ Redirection si token manquant.
+- ✔ Affichage dynamique des données.
+- ✔ Soumission d'avis uniquement en tant qu'utilisateur connecté.
+- ✔ Validation responsive (mobile/desktop).
+
 ---
 
-- **Jean-Alain Renié** → https://github.com/JaRenie-spec
-- **Killian Ripoche** → https://github.com/KillianRipoche
-- **Alexis Battistoni** → https://github.com/Albat93
+## 🚀 Lancer le projet
+
+1. 📦 Lancer le backend avec `run.py`
+2. 🌐 Ouvrir `index.html` via un serveur local (ex. Live Server dans VS Code)
+3. 🎉 Profiter de l’expérience utilisateur interactive
+
+---
+
+## 📁 Technologies
+
+- **Frontend** : HTML5, CSS3, JavaScript ES6
+- **Backend** : Flask, JWT, SQLAlchemy
+- **API** : RESTful avec Flask-RESTx
+
+---
+
+## 🧠 Ressources utiles
+
+- [HTML5 Guide](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- [CSS3 Guide](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- [CORS in Flask](https://flask-cors.readthedocs.io/en/latest/)
+
+---
+
+## Author
+
+
+ **Alexis Battistoni** → https://github.com/Albat93
+
+
