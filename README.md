@@ -1,3 +1,4 @@
+
 # 🧭 Part 4 - Simple Web Client
 
 Bienvenue dans la quatrième phase du projet **HBnB** ! Cette partie se concentre sur le **développement frontend** d'une interface utilisateur dynamique en utilisant **HTML5, CSS3 et JavaScript (ES6)**, pour interagir avec les services backend développés précédemment.
@@ -77,3 +78,56 @@ Bienvenue dans la quatrième phase du projet **HBnB** ! Cette partie se concentr
 - CORS activé dans `run.py` via :
   ```python
   CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
+  ```
+- ✅ Les appels `Fetch` incluent le token dans l’en-tête `Authorization` :
+  ```js
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + token
+  }
+  ```
+
+---
+
+## 🧪 Tests réalisés
+
+- ✔ Connexion avec des identifiants valides/invalides.
+- ✔ Redirection si token manquant.
+- ✔ Affichage dynamique des données.
+- ✔ Soumission d'avis uniquement en tant qu'utilisateur connecté.
+- ✔ Validation responsive (mobile/desktop).
+
+---
+
+## 🚀 Lancer le projet
+
+1. 📦 Lancer le backend avec `run.py`
+2. 🌐 Ouvrir `index.html` via un serveur local (ex. Live Server dans VS Code)
+3. 🎉 Profiter de l’expérience utilisateur interactive
+
+---
+
+## 📁 Technologies
+
+- **Frontend** : HTML5, CSS3, JavaScript ES6
+- **Backend** : Flask, JWT, SQLAlchemy
+- **API** : RESTful avec Flask-RESTx
+
+---
+
+## 🧠 Ressources utiles
+
+- [HTML5 Guide](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
+- [CSS3 Guide](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript ES6](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
+- [CORS in Flask](https://flask-cors.readthedocs.io/en/latest/)
+
+---
+
+## Author
+
+
+ **Alexis Battistoni** → https://github.com/Albat93
+
+
